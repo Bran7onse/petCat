@@ -8,6 +8,8 @@ use Livewire\Volt\Component;
 
 new class extends Component {
     public string $name = '';
+    public ?string $lastname = '';
+    public ?string $phone = '';
     public string $email = '';
 
     /**
@@ -16,6 +18,8 @@ new class extends Component {
     public function mount(): void
     {
         $this->name = Auth::user()->name;
+        $this->lastname = Auth::user()->lastname;
+        $this->phone = Auth::user()->phone;
         $this->email = Auth::user()->email;
     }
 
@@ -28,6 +32,8 @@ new class extends Component {
 
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'numeric', 'digits_between:1,20'],
 
             'email' => [
                 'required',
@@ -75,6 +81,8 @@ new class extends Component {
     <x-settings.layout :heading="__('Profile')" :subheading="__('Update your name and email address')">
         <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">
             <flux:input wire:model="name" :label="__('Name')" type="text" required autofocus autocomplete="name" />
+            <flux:input wire:model="lastname" :label="__('Last Name')" type="text" autocomplete="lastname" />
+            <flux:input wire:model="phone" :label="__('Phone')" type="text" autocomplete="phone" />
 
             <div>
                 <flux:input wire:model="email" :label="__('Email')" type="email" required autocomplete="email" />
