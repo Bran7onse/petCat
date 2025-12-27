@@ -1,5 +1,7 @@
 <?php
 
+use App\Livewire\Users\Index;
+use App\Livewire\Users\Create;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
@@ -12,6 +14,7 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
@@ -20,7 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('appearance.edit');
 
     Volt::route('settings/two-factor', 'settings.two-factor')
-        ->middleware(
+        ->middleware( 
             when(
                 Features::canManageTwoFactorAuthentication()
                     && Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword'),
@@ -30,3 +33,6 @@ Route::middleware(['auth'])->group(function () {
         )
         ->name('two-factor.show');
 });
+
+Route::get('/usuarios', action: Index::class)->name('users.index')->middleware(['auth', 'verified']);
+Route::get('/usuarios/crear', action: Create::class)->name('users.create')->middleware(['auth', 'verified']);

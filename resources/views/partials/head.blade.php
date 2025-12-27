@@ -12,3 +12,37 @@
 
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 @fluxAppearance
+
+<script>
+    // Sincronizar data-theme de daisyUI con la clase .dark de Flux/Tailwind
+    function syncTheme() {
+        const html = document.documentElement;
+        const body = document.body;
+        const isDark = html.classList.contains('dark');
+        const theme = isDark ? 'dark' : 'light';
+        
+        html.setAttribute('data-theme', theme);
+        body.setAttribute('data-theme', theme);
+    }
+    
+    // Ejecutar al cargar
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', syncTheme);
+    } else {
+        syncTheme();
+    }
+    
+    // Observar cambios en la clase del html
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'class') {
+                syncTheme();
+            }
+        });
+    });
+    
+    observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class']
+    });
+</script>

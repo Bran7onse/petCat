@@ -5,13 +5,13 @@
     </head>
     <body class="min-h-screen bg-white antialiased dark:bg-linear-to-b dark:from-neutral-950 dark:to-neutral-900">
         <div class="relative grid h-dvh flex-col items-center justify-center px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0">
-            <div class="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-e dark:border-neutral-800">
-                <div class="absolute inset-0 bg-neutral-900"></div>
-                <a href="{{ route('home') }}" class="relative z-20 flex items-center text-lg font-medium" wire:navigate>
-                    <span class="flex h-10 w-10 items-center justify-center rounded-md">
-                        <x-app-logo-icon class="me-2 h-7 fill-current text-white" />
+            <div class="bg-muted relative hidden h-full flex-col p-10 text-black lg:flex dark:border-e dark:border-neutral-800">
+                <div class="absolute inset-0" style="background-image: url('icon/perrosGatos.jpeg'); background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
+                <a href="{{ route('home') }}" class="relative z-20 flex items-center text-xl font-extrabold" wire:navigate>
+                    <span class="flex h-4 w-4 items-center justify-center rounded-md">
+                        <img src="icon/logo.png" alt="PetCat Logo" class="me-2 h-12 object-cover" style="filter: brightness(0) saturate(100%);">
                     </span>
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('app.name', 'PetCat') }}
                 </a>
 
                 @php
@@ -20,7 +20,7 @@
 
                 <div class="relative z-20 mt-auto">
                     <blockquote class="space-y-2">
-                        <flux:heading size="lg">&ldquo;{{ trim($message) }}&rdquo;</flux:heading>
+                        <flux:heading size="lg">&ldquo;{{ trim(string: $message) }}&rdquo;</flux:heading>
                         <footer><flux:heading>{{ trim($author) }}</flux:heading></footer>
                     </blockquote>
                 </div>
@@ -32,7 +32,7 @@
                             <x-app-logo-icon class="size-9 fill-current text-black dark:text-white" />
                         </span>
 
-                        <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>
+                        <span class="sr-only">{{ config('app.name', 'PetCat') }}</span>
                     </a>
                     {{ $slot }}
                 </div>

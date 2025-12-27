@@ -17,8 +17,16 @@
                 </flux:navlist.group>
             </flux:navlist>
 
-            <flux:spacer />
+            <flux:navlist variant="outline">
+                @can('ver usuarios')
+                    <flux:navlist.group :heading="__('Usuarios')" class="grid">
+                @endcan
+                    <flux:navlist.item icon="users" :href="route('users.index')" :current="request()->routeIs('users.*')" wire:navigate>{{ __('Todos los Usuarios') }}</flux:navlist.item>
+                </flux:navlist.group>
+            </flux:navlist>
 
+            <flux:spacer />
+    
             <flux:navlist variant="outline">
                 <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
                 {{ __('Repository') }}
