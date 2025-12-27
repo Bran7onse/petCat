@@ -20,6 +20,10 @@ class Update extends Component
 
     public function mount($userId)
     {
+
+        // Authorization
+        $this->authorize('editar usuarios', User::class);
+
         $user = User::findOrFail($userId);
         
         $this->userId = $user->id;

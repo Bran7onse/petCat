@@ -72,6 +72,12 @@ class Create extends Component
         );
     }
 
+    // Authorization
+    public function mount()
+    {
+        $this->authorize('crear usuarios', User::class);
+    }
+
     public function render()
     {
         return view('livewire.users.create', [

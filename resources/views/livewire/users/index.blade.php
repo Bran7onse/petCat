@@ -9,10 +9,9 @@
     {{-- Header Section --}}
     <x-mary-header title="{{$title}}" subtitle="{{$subtitle}}" separator>
         <x-slot:middle class="!justify-end">
-            <x-mary-input icon="o-bolt" placeholder="Search..." />
+            <x-mary-input wire:model.live="search" icon="o-bolt" placeholder="Buscar usuarios..." />
         </x-slot:middle>
         <x-slot:actions>
-            <x-mary-button icon="o-funnel" />
             <x-mary-button icon="o-plus" class="btn-primary" link="{{ route('users.create') }}" />
         </x-slot:actions>
     </x-mary-header>

@@ -18,7 +18,9 @@
             </flux:navlist>
 
             <flux:navlist variant="outline">
-                <flux:navlist.group :heading="__('Usuarios')" class="grid">
+                @can('ver usuarios')
+                    <flux:navlist.group :heading="__('Usuarios')" class="grid">
+                @endcan
                     <flux:navlist.item icon="users" :href="route('users.index')" :current="request()->routeIs('users.*')" wire:navigate>{{ __('Todos los Usuarios') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>

@@ -9,9 +9,13 @@ use Mary\Traits\Toast;
 
 class Index extends Component
 {
+    
     use WithPagination, Toast;
     public bool $showDrawer1 = false;
     public ?int $selectedUserId = null;
+
+    # Search
+    public string $search = '';
 
     # Header Section
     public string $title = 'Lista de Usuarios';
@@ -38,6 +42,12 @@ class Index extends Component
     public int $perPage = 10;
 
     protected $listeners = ['user-updated' => 'closeDrawer'];
+    
+    // Reset pagination on search update
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
 
     public function edit($userId)
     {
@@ -51,9 +61,19 @@ class Index extends Component
         $this->selectedUserId = null;
     }
 
+
+   // Authorization
+    public function mount()
+    {
+        $this->authorize(User::class);
+    }
+
     /* Eliminar Usuario */
     public function deleteUser($userId)
     {
+        // Authorization
+        $this->authorize('eliminar usuarios', User::class);
+        
         $user = User::findOrFail($userId);
         $user->delete();
 
@@ -68,6 +88,10 @@ class Index extends Component
         return view('livewire.users.index', [
             'users' => User::query()
                 ->with('roles')
+                // Buscar en múltiples columnas
+                ->when($this->search, fn($query) => 
+                    $query->whereAny(['name', 'lastname', 'email', 'phone'], 'like', "%{$this->search}%")
+                )
                 ->orderBy(...array_values($this->sortBy))
                 ->paginate($this->perPage),
         ]);
