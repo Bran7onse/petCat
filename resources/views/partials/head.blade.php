@@ -1,48 +1,36 @@
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{{-- Fonts + Icons (igual que Welcome) --}}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
 
-<title>{{ $title ?? config('app.name') }}</title>
+{{-- Tailwind CDN --}}
+<script src="https://cdn.tailwindcss.com"></script>
 
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
-<link rel="preconnect" href="https://fonts.bunny.net">
-<link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-@fluxAppearance
-
+{{-- Tailwind config: colores + fonts (igual que Welcome) --}}
 <script>
-    // Sincronizar data-theme de daisyUI con la clase .dark de Flux/Tailwind
-    function syncTheme() {
-        const html = document.documentElement;
-        const body = document.body;
-        const isDark = html.classList.contains('dark');
-        const theme = isDark ? 'dark' : 'light';
-        
-        html.setAttribute('data-theme', theme);
-        body.setAttribute('data-theme', theme);
-    }
-    
-    // Ejecutar al cargar
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', syncTheme);
-    } else {
-        syncTheme();
-    }
-    
-    // Observar cambios en la clase del html
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.attributeName === 'class') {
-                syncTheme();
-            }
-        });
-    });
-    
-    observer.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['class']
-    });
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: "#1572A1",
+          secondary: "#19A974",
+          "accent-orange": "#FF6B35",
+          "accent-yellow": "#FFD166",
+          dark: "#2C3E50",
+          "light-gray": "#F4F4F4",
+        },
+        fontFamily: {
+          poppins: ["Poppins", "sans-serif"],
+          sacramento: ["Sacramento", "cursive"],
+        },
+      },
+    },
+  };
 </script>
+
+{{-- Fuente global --}}
+<style>
+  html, body { font-family: 'Poppins', sans-serif; }
+</style>
