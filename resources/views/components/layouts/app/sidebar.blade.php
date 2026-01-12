@@ -25,6 +25,18 @@
                 </flux:navlist.group>
             </flux:navlist>
 
+            <flux:navlist variant="outline">
+                @can('ver mascotas')
+                    <flux:navlist.group :heading="__('Mascotas')" class="grid">
+                @endcan
+                    <flux:navlist.item :href="route('mascotas.index')" :current="request()->routeIs('mascotas.*')" wire:navigate> {{ __('Todas las Mascotas') }}
+                        <x-slot:icon>
+                            <x-gmdi-pets-o class="w-5 h-5" />
+                        </x-slot:icon>
+                    </flux:navlist.item>
+                </flux:navlist.group>
+            </flux:navlist>
+
             <flux:spacer />
     
             <flux:navlist variant="outline">
