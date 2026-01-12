@@ -64,4 +64,10 @@ class User extends Authenticatable
             ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
+
+    // Relación con Mascotas
+    public function mascotas()
+    {
+        return $this->hasMany(Mascota::class, 'propietario_id');
+    }
 }

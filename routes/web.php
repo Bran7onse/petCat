@@ -1,7 +1,9 @@
 <?php
 
-use App\Livewire\Users\Index;
-use App\Livewire\Users\Create;
+use App\Livewire\Mascotas\Index as MascotasIndex;
+use App\Livewire\Mascotas\Create as MascotasCreate;
+use App\Livewire\Users\Index as UsersIndex;
+use App\Livewire\Users\Create as UsersCreate;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
@@ -34,5 +36,12 @@ Route::middleware(['auth'])->group(function () {
         ->name('two-factor.show');
 });
 
-Route::get('/usuarios', action: Index::class)->name('users.index')->middleware(['auth', 'verified']);
-Route::get('/usuarios/crear', action: Create::class)->name('users.create')->middleware(['auth', 'verified']);
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Rutas para usuarios en grupo con autenticación
+    Route::get('/usuarios', action: UsersIndex::class)->name('users.index');
+    Route::get('/usuarios/crear', action: UsersCreate::class)->name('users.create');
+
+    // Rutas para mascotas en grupo con autenticación
+    Route::get('/mascotas', action: MascotasIndex::class)->name('mascotas.index');
+    Route::get('/mascotas/crear', action: MascotasCreate::class)->name('mascotas.create');
+});
