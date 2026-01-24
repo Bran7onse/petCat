@@ -1,20 +1,22 @@
 <x-layouts.app :title="__('Dashboard')">
-    <div class="w-full flex-1 space-y-6 font-poppins">
+    <div class="w-full space-y-6 font-poppins">
 
         {{-- HERO / ENCABEZADO --}}
-        <div class="relative overflow-hidden rounded-3xl border border-black/5 bg-gradient-to-br from-primary/10 to-secondary/10 p-6 md:p-8">
-            <div class="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-secondary/15 blur-2xl"></div>
-            <div class="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-primary/15 blur-2xl"></div>
+        <div
+            class="relative overflow-hidden rounded-3xl border border-black/5 bg-gradient-to-br from-primary/10 to-secondary/10 p-6 md:p-8">
+            <div class="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-secondary/15 blur-2xl"></div>
+            <div class="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-primary/15 blur-2xl"></div>
 
             <div class="relative flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div class="flex items-start gap-4">
-                    <div class="grid h-14 w-14 place-items-center rounded-2xl bg-white shadow-sm border border-black/5">
+                    <div
+                        class="grid h-14 w-14 place-items-center rounded-2xl bg-white shadow-sm border border-black/5">
                         <span class="material-icons-sharp text-primary text-3xl">pets</span>
                     </div>
 
                     <div>
                         <h1 class="text-2xl md:text-3xl font-extrabold text-dark leading-tight">
-                            🐾 Panel de control PetCat
+                            🐾 Panel de control PetCare
                         </h1>
                         <p class="text-gray-600">
                             Gestiona tus mascotas, citas y atención veterinaria en un solo lugar.
@@ -23,13 +25,14 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-3">
-                    <div class="flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 border border-black/5 shadow-sm">
+                    <div
+                        class="flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 border border-black/5 shadow-sm">
                         <span class="material-icons-sharp text-secondary">verified_user</span>
                         <span class="text-sm font-semibold text-primary">Acceso seguro</span>
                     </div>
 
                     <a href="#"
-                       class="inline-flex items-center justify-center gap-2 rounded-full bg-accent-orange px-6 py-3 font-bold text-white shadow-lg shadow-orange-200 hover:-translate-y-0.5 hover:bg-[#e65a2a] transition-all">
+                        class="inline-flex items-center justify-center gap-2 rounded-full bg-accent-orange px-6 py-3 font-bold text-white shadow-lg shadow-orange-200 hover:-translate-y-0.5 hover:bg-[#e65a2a] transition-all">
                         <span class="material-icons-sharp">add_circle</span>
                         Nueva cita
                     </a>
@@ -82,7 +85,7 @@
             </div>
         </div>
 
-        {{-- CUERPO: Acciones + Tabla --}}
+        {{-- CUERPO --}}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {{-- Acciones rápidas --}}
             <div class="rounded-3xl border border-black/5 bg-white p-6 shadow-sm">
@@ -93,7 +96,7 @@
 
                 <div class="space-y-3">
                     <a href="#"
-                       class="flex items-center justify-between rounded-2xl border border-black/5 p-4 hover:bg-light-gray transition">
+                        class="flex items-center justify-between rounded-2xl border border-black/5 p-4 hover:bg-light-gray transition">
                         <div class="flex items-center gap-3">
                             <div class="grid h-11 w-11 place-items-center rounded-2xl bg-secondary/10">
                                 <span class="material-icons-sharp text-secondary">add</span>
@@ -107,7 +110,7 @@
                     </a>
 
                     <a href="#"
-                       class="flex items-center justify-between rounded-2xl border border-black/5 p-4 hover:bg-light-gray transition">
+                        class="flex items-center justify-between rounded-2xl border border-black/5 p-4 hover:bg-light-gray transition">
                         <div class="flex items-center gap-3">
                             <div class="grid h-11 w-11 place-items-center rounded-2xl bg-primary/10">
                                 <span class="material-icons-sharp text-primary">medical_information</span>
@@ -121,7 +124,7 @@
                     </a>
 
                     <a href="#"
-                       class="flex items-center justify-between rounded-2xl border border-black/5 p-4 hover:bg-light-gray transition">
+                        class="flex items-center justify-between rounded-2xl border border-black/5 p-4 hover:bg-light-gray transition">
                         <div class="flex items-center gap-3">
                             <div class="grid h-11 w-11 place-items-center rounded-2xl bg-accent-orange/10">
                                 <span class="material-icons-sharp text-accent-orange">calendar_month</span>
@@ -165,7 +168,8 @@
                                 <td class="py-4">Luna 🐶</td>
                                 <td class="py-4">María Q.</td>
                                 <td class="py-4">
-                                    <span class="inline-flex items-center rounded-full bg-accent-yellow/20 px-3 py-1 text-xs font-bold text-dark">
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-accent-yellow/20 px-3 py-1 text-xs font-bold text-dark">
                                         Pendiente
                                     </span>
                                 </td>
@@ -175,7 +179,8 @@
                                 <td class="py-4">Simba 🐱</td>
                                 <td class="py-4">Carlos P.</td>
                                 <td class="py-4">
-                                    <span class="inline-flex items-center rounded-full bg-secondary/15 px-3 py-1 text-xs font-bold text-secondary">
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-secondary/15 px-3 py-1 text-xs font-bold text-secondary">
                                         Confirmado
                                     </span>
                                 </td>
@@ -185,7 +190,8 @@
                                 <td class="py-4">Milo 🐶</td>
                                 <td class="py-4">Sofía V.</td>
                                 <td class="py-4">
-                                    <span class="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
                                         Atención
                                     </span>
                                 </td>
@@ -193,7 +199,6 @@
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
 

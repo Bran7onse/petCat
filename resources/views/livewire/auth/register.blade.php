@@ -1,4 +1,4 @@
-<x-layouts.auth :title="__('Crear cuenta — PetCat')">
+<x-layouts.auth :title="__('Crear cuenta — PetCare')">
     <div class="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
 
         {{-- blobs suaves --}}
@@ -7,11 +7,11 @@
 
         {{-- mascotas afuera del card --}}
         <img src="{{ asset('icon/dog3d.png') }}"
-             class="hidden lg:block pointer-events-none select-none absolute left-6 bottom-6 w-44 opacity-90 drop-shadow-lg z-0"
-             alt="dog 3d">
+            class="hidden lg:block pointer-events-none select-none absolute left-6 bottom-6 w-44 opacity-90 drop-shadow-lg z-0"
+            alt="dog 3d">
         <img src="{{ asset('icon/cat3d.png') }}"
-             class="hidden lg:block pointer-events-none select-none absolute right-6 top-10 w-40 opacity-90 drop-shadow-lg z-0"
-             alt="cat 3d">
+            class="hidden lg:block pointer-events-none select-none absolute right-6 top-10 w-40 opacity-90 drop-shadow-lg z-0"
+            alt="cat 3d">
 
         {{-- CARD --}}
         <div class="w-full max-w-md bg-white/90 backdrop-blur rounded-3xl border border-black/5 shadow-xl overflow-hidden relative z-10">
@@ -20,10 +20,10 @@
             <div class="px-8 pt-10 pb-6 text-center">
                 <div class="flex items-center justify-center gap-3">
                     <img src="{{ asset('icon/logo.png') }}"
-                         class="h-12 w-12 object-contain drop-shadow"
-                         alt="PetCat Logo">
+                        class="h-12 w-12 object-contain drop-shadow"
+                        alt="PetCare Logo">
                     <div class="text-3xl font-extrabold gradient-text">
-                        🐾 PetCat
+                        🐾 PetCare
                     </div>
                 </div>
 
@@ -58,8 +58,7 @@
                             autofocus
                             autocomplete="name"
                             placeholder="Tu nombre completo"
-                            class="!rounded-xl !border-gray-200 focus:!border-primary"
-                        />
+                            class="!rounded-xl !border-gray-200 focus:!border-primary" />
                     </div>
 
                     {{-- Email --}}
@@ -73,8 +72,7 @@
                             required
                             autocomplete="email"
                             placeholder="tu@correo.com"
-                            class="!rounded-xl !border-gray-200 focus:!border-primary"
-                        />
+                            class="!rounded-xl !border-gray-200 focus:!border-primary" />
                     </div>
 
                     {{-- Password --}}
@@ -89,8 +87,7 @@
                             autocomplete="new-password"
                             placeholder="••••••••"
                             viewable
-                            class="!rounded-xl !border-gray-200 focus:!border-primary"
-                        />
+                            class="!rounded-xl !border-gray-200 focus:!border-primary" />
                         <p class="mt-2 text-xs text-gray-500 flex items-center gap-1">
                             <span class="material-icons-sharp text-base text-secondary">info</span>
                             Usa una contraseña segura para proteger tu cuenta.
@@ -109,8 +106,7 @@
                             autocomplete="new-password"
                             placeholder="••••••••"
                             viewable
-                            class="!rounded-xl !border-gray-200 focus:!border-primary"
-                        />
+                            class="!rounded-xl !border-gray-200 focus:!border-primary" />
                     </div>
 
                     {{-- Botón principal --}}
@@ -121,8 +117,7 @@
                                !bg-accent-orange hover:!bg-[#e65a2a]
                                shadow-lg shadow-orange-200/70
                                transition-all hover:-translate-y-0.5"
-                        data-test="register-user-button"
-                    >
+                        data-test="register-user-button">
                         <span class="inline-flex items-center justify-center gap-2">
                             <span class="material-icons-sharp text-base">person_add</span>
                             Crear cuenta
@@ -138,7 +133,7 @@
                     </div>
 
                     <p class="text-center text-xs text-gray-500 mt-4">
-                        © {{ date('Y') }} PetCat — Cuidando a tus mascotas con tecnología 💙
+                        © {{ date('Y') }} PetCare — Cuidando a tus mascotas con tecnología 💙
                     </p>
                 </form>
             </div>
