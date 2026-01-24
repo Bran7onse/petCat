@@ -1,10 +1,11 @@
 {{-- resources/views/components/layouts/auth.blade.php --}}
 @php
-    $title = $title ?? 'PetCat';
+$title = $title ?? 'PetCare';
 @endphp
 
 <!doctype html>
 <html lang="es">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -41,8 +42,11 @@
     </script>
 
     <style>
-        body { font-family: 'Poppins', sans-serif; }
-        .gradient-text{
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .gradient-text {
             background: linear-gradient(135deg, #1572A1 0%, #19A974 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -53,4 +57,5 @@
 <body class="min-h-screen overflow-x-hidden bg-gradient-to-br from-primary/5 to-secondary/5 text-dark">
     {{ $slot }}
 </body>
+
 </html>
