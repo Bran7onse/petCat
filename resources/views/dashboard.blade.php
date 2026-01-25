@@ -31,8 +31,8 @@
                         <span class="text-sm font-semibold text-primary">Acceso seguro</span>
                     </div>
 
-                    <a href="#"
-                        class="inline-flex items-center justify-center gap-2 rounded-full bg-accent-orange px-6 py-3 font-bold text-white shadow-lg shadow-orange-200 hover:-translate-y-0.5 hover:bg-[#e65a2a] transition-all">
+                    <a href="{{ route('citas.create') }}"
+                        class="inline-flex items-center justify-center gap-2 rounded-full bg-accent-orange px-6 py-3 font-bold text-white">
                         <span class="material-icons-sharp">add_circle</span>
                         Nueva cita
                     </a>
@@ -61,8 +61,13 @@
                 <div class="flex items-start justify-between">
                     <div>
                         <p class="text-sm text-gray-500 font-semibold">Mascotas activas</p>
-                        <p class="text-3xl font-extrabold text-dark mt-1">342</p>
-                        <p class="text-xs text-gray-500 mt-2">24 con recordatorios próximos</p>
+                        <p class="text-3xl font-extrabold text-dark mt-1">
+                            {{ $recordatoriosPendientes }}
+                        </p>
+                        <p class="text-xs text-gray-500 mt-2">
+                            Recordatorios pendientes
+                        </p>
+
                     </div>
                     <div class="grid h-11 w-11 place-items-center rounded-2xl bg-secondary/10">
                         <span class="material-icons-sharp text-secondary">pets</span>
@@ -147,7 +152,8 @@
                         Citas de hoy
                     </h2>
 
-                    <a href="#" class="text-sm font-bold text-primary hover:text-secondary transition">
+                    <a href="{{ route('citas.index') }}"
+                        class="text-sm font-bold text-primary hover:text-secondary transition">
                         Ver todas
                     </a>
                 </div>
@@ -163,40 +169,63 @@
                             </tr>
                         </thead>
                         <tbody class="text-dark">
+                            @forelse($citasHoy as $cita)
                             <tr class="border-b border-black/5">
-                                <td class="py-4 font-semibold">09:30</td>
-                                <td class="py-4">Luna 🐶</td>
-                                <td class="py-4">María Q.</td>
+                                <td class="py-4 font-semibold">
+                                    {{ \Carbon\Carbon::parse($cita->fecha . ' ' . $cita->hora)->format('d/m/Y H:i') }}
+                                </td>
+
                                 <td class="py-4">
-                                    <span
-                                        class="inline-flex items-center rounded-full bg-accent-yellow/20 px-3 py-1 text-xs font-bold text-dark">
-                                        Pendiente
+                                    {{ $cita->mascota }} 🐾
+                                </td>
+
+                                <td class="py-3">
+                                    {{ auth()->user()->name }}
+                                </td>
+
+                                {{-- COLUMNA DE ESTADO Y ACCIONES --}}
+                                <td class="py-4 flex items-center gap-2">
+                                    @php
+                                    $colores = [
+                                    'pendiente' => 'bg-accent-yellow/20 text-dark',
+                                    'confirmada' => 'bg-secondary/15 text-secondary',
+                                    'atendida' => 'bg-primary/10 text-primary',
+                                    'cancelada' => 'bg-red-100 text-red-600',
+                                    ];
+                                    @endphp
+
+                                    {{-- Badge de Estado --}}
+                                    <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold {{ $colores[$cita->estado] ?? 'bg-gray-100 text-gray-600' }}">
+                                        {{ ucfirst($cita->estado) }}
                                     </span>
+
+                                    {{-- Botones de Acción (Solo si está pendiente) --}}
+                                    @if($cita->estado === 'pendiente')
+                                    <form method="POST" action="{{ route('citas.confirmar', $cita) }}" class="inline">
+                                        @csrf @method('PATCH')
+                                        <button type="submit" class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-secondary text-white hover:bg-secondary/80 transition">
+                                            Confirmar
+                                        </button>
+                                    </form>
+
+                                    <form method="POST" action="{{ route('citas.cancelar', $cita) }}" class="inline">
+                                        @csrf @method('PATCH')
+                                        <button type="submit" class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-red-500 text-white hover:bg-red-600 transition">
+                                            Cancelar
+                                        </button>
+                                    </form>
+                                    @endif
                                 </td>
                             </tr>
-                            <tr class="border-b border-black/5">
-                                <td class="py-4 font-semibold">11:00</td>
-                                <td class="py-4">Simba 🐱</td>
-                                <td class="py-4">Carlos P.</td>
-                                <td class="py-4">
-                                    <span
-                                        class="inline-flex items-center rounded-full bg-secondary/15 px-3 py-1 text-xs font-bold text-secondary">
-                                        Confirmado
-                                    </span>
-                                </td>
-                            </tr>
+                            @empty
                             <tr>
-                                <td class="py-4 font-semibold">15:45</td>
-                                <td class="py-4">Milo 🐶</td>
-                                <td class="py-4">Sofía V.</td>
-                                <td class="py-4">
-                                    <span
-                                        class="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
-                                        Atención
-                                    </span>
+                                <td colspan="4" class="text-center py-6 text-gray-500">
+                                    No tienes citas para hoy
                                 </td>
                             </tr>
+                            @endforelse
                         </tbody>
+
                     </table>
                 </div>
             </div>

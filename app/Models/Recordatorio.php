@@ -16,4 +16,9 @@ class Recordatorio extends Model
         'fecha_envio',
         'enviado',
     ];
+
+    public function cita()
+    {
+        return $this->belongsTo(\App\Models\Cita::class);
+    }
 }
