@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class WhatsAppService
 {
-    public function enviarMensaje($telefono, $mensaje)
+    /*public function enviarMensaje($telefono, $mensaje)
     {
         Log::info("📲 Intentando enviar WhatsApp a {$telefono}");
 
@@ -30,5 +30,18 @@ class WhatsAppService
         ]);
 
         return $response;
+    }
+    */
+    public function enviarMensaje($telefono, $mensaje)
+    {
+        Log::info("📲 WhatsApp REAL a $telefono");
+
+        return Http::withToken(config('services.whatsapp.token'))
+            ->post(config('services.whatsapp.url') . '/' . config('services.whatsapp.phone_id') . '/messages', [
+                'messaging_product' => 'whatsapp',
+                'to' => $telefono,
+                'type' => 'text',
+                'text' => ['body' => $mensaje],
+            ]);
     }
 }

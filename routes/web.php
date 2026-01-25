@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\CitaController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RecordatorioController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -46,8 +49,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/mascotas', action: MascotasIndex::class)->name('mascotas.index');
     Route::get('/mascotas/crear', action: MascotasCreate::class)->name('mascotas.create');
 
-    Route::get('/test-log', function () {
+    // Rutas para citas mascotas
+    Route::get('/citas/crear', [CitaController::class, 'create'])->name('citas.create');
+    Route::post('/citas', [CitaController::class, 'store'])->name('citas.store');
+    Route::get('/citas', [CitaController::class, 'index'])->name('citas.index');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
+
+    Route::patch('/citas/{cita}/confirmar', [CitaController::class, 'confirmar'])->name('citas.confirmar');
+    Route::patch('/citas/{cita}/cancelar', [CitaController::class, 'cancelar'])->name('citas.cancelar');
+
+    Route::get('/recordatorios', [RecordatorioController::class, 'index'])->name('recordatorios.index');
+
+
+
+
+    /*Route::get('/test-log', function () {
         Log::info('🧪 LOG DESDE RUTA FUNCIONA');
         return 'ok';
-    });
+    });*/
 });
