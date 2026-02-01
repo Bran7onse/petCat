@@ -13,18 +13,23 @@ return new class extends Migration
     {
         Schema::create('mascotas', function (Blueprint $table) {
             $table->id();
-            // Formulario de alta (Nombre, especie (Seleccionar entre gato o perro), raza, peso, foto)
-            $table->string('nombre');
-            $table->enum('especie', ['gato', 'perro']);
-            $table->string('raza')->nullable();
-            $table->float('peso')->nullable();
-            $table->json('fotos')->nullable();
 
-            // User propietario
+            $table->string('nombre');
+            $table->string('especie');
+            $table->string('raza')->nullable();
+            $table->decimal('peso', 8, 2); // 8 dígitos, 2 decimales
+
+            // AGREGA ESTAS DOS LÍNEAS QUE FALTAN:
+            $table->date('fecha_nacimiento')->nullable();
+            $table->string('sexo')->nullable();
+
+            // Tu relación con el usuario
             $table->foreignId('propietario_id')->constrained('users')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
