@@ -12,12 +12,12 @@ class Index extends Component
 {
     use WithPagination, Toast;
     public bool $showDrawer1 = false;
-    
+
     # Search
     public string $search = '';
 
     # Header Section
-    public string $title = 'Lista de Mascotas';
+    public string $title = 'Lista de Mascotas 🐱';
     public string $subtitle = 'Administración de mascotas';
 
     /* Sorting and Pagination - Table */
@@ -84,10 +84,12 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.mascotas.index',[
+        return view('livewire.mascotas.index', [
             'mascotas' => Mascota::query()
                 ->with('propietario')
-                ->when($this->search, fn($query) =>
+                ->when(
+                    $this->search,
+                    fn($query) =>
                     $query->whereAny(['nombre', 'especie', 'raza'], 'like', "%{ $this->search }%")
                 )
                 ->orderBy(...array_values($this->sortBy))

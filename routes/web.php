@@ -7,10 +7,12 @@ use App\Livewire\Users\Create as UsersCreate;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\CitaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RecordatorioController;
+use App\Livewire\Mascotas\Create;
+use App\Livewire\Mascotas\Index;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -60,6 +62,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/citas/{cita}/cancelar', [CitaController::class, 'cancelar'])->name('citas.cancelar');
 
     Route::get('/recordatorios', [RecordatorioController::class, 'index'])->name('recordatorios.index');
+
+    // Para el listado
+    Route::get('/mascotas', Index::class)->name('mascotas.index');
+
+    // Para crear (ESTO SOLUCIONA TU ERROR)
+    Route::get('/mascotas/create', Create::class)->name('mascotas.create');
 
 
 

@@ -3,170 +3,115 @@
 
 <head>
     @include('partials.head')
+    <style>
+        body {
+            overflow: hidden;
+        }
+    </style>
 </head>
 
-<body class="min-h-screen bg-light-gray text-dark dark:bg-zinc-900 dark:text-white font-poppins">
-    {{-- SIDEBAR --}}
+{{-- AGREGAMOS 'flex' y 'overflow-hidden' al body para layout de dashboard --}}
+
+<body class="min-h-screen bg-light-gray text-dark dark:bg-zinc-900 dark:text-white font-poppins flex antialiased">
+
+    {{-- SIDEBAR (Izquierda) --}}
+    {{-- Agregamos clases para que sea flex column y ocupe el alto total --}}
     <flux:sidebar
         sticky
         stashable
-        class="border-e border-black/5 bg-white dark:border-white/10 dark:bg-zinc-900">
-        <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
+        class="border-r border-black/5 bg-white dark:border-white/10 dark:bg-zinc-900 w-64 h-screen flex flex-col justify-between py-6 overflow-y-auto flex-shrink-0">
 
-        {{-- LOGO --}}
-        <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
-            <x-app-logo />
-        </a>
+        {{-- SECCIÓN SUPERIOR: Logo y Menú --}}
+        <div>
+            <flux:sidebar.toggle class="lg:hidden mb-4" icon="x-mark" />
 
-        {{-- MENU --}}
-        <flux:navlist variant="outline">
-            <flux:navlist.group :heading="__('Plataforma')" class="grid">
-                <flux:navlist.item
-                    icon="home"
-                    :href="route('dashboard')"
-                    :current="request()->routeIs('dashboard')"
-                    wire:navigate>
-                    {{ __('Panel de control') }}
-                </flux:navlist.item>
-            </flux:navlist.group>
-        </flux:navlist>
+            <a href="{{ route('dashboard') }}" class="flex items-center space-x-2 px-2 mb-8" wire:navigate>
+                <x-app-logo class="h-8 w-auto" />
+                {{-- Opcional: Nombre de la app al lado del logo --}}
+                <span class="font-bold text-lg">PetCare</span>
+            </a>
 
-        <flux:navlist variant="outline">
-            @can('ver usuarios')
-            <flux:navlist.group :heading="__('Usuarios')" class="grid">
-                <flux:navlist.item
-                    icon="users"
-                    :href="route('users.index')"
-                    :current="request()->routeIs('users.*')"
-                    wire:navigate>
-                    {{ __('Todos los Usuarios') }}
-                </flux:navlist.item>
-            </flux:navlist.group>
-            @endcan
-        </flux:navlist>
+            <flux:navlist variant="outline">
+                <flux:navlist.group :heading="__('Plataforma')" class="grid gap-2">
+                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
+                        {{ __('Panel de control') }}
+                    </flux:navlist.item>
+                </flux:navlist.group>
 
-        <flux:navlist variant="outline">
-            @can('ver mascotas')
-            <flux:navlist.group :heading="__('Mascotas')" class="grid">
+                @can('ver usuarios')
+                <flux:navlist.group :heading="__('Usuarios')" class="grid gap-2 mt-4">
+                    <flux:navlist.item icon="users" :href="route('users.index')" :current="request()->routeIs('users.*')" wire:navigate>
+                        {{ __('Todos los Usuarios') }}
+                    </flux:navlist.item>
+                </flux:navlist.group>
                 @endcan
-                <flux:navlist.item :href="route('mascotas.index')" :current="request()->routeIs('mascotas.*')" wire:navigate> {{ __('Todas las Mascotas') }}
-                    <x-slot:icon>
-                        <x-gmdi-pets-o class="w-5 h-5" />
-                    </x-slot:icon>
-                </flux:navlist.item>
-            </flux:navlist.group>
-        </flux:navlist>
 
-        <flux:spacer />
+                @can('ver mascotas')
+                <flux:navlist.group :heading="__('Mascotas')" class="grid gap-2 mt-4">
+                    <flux:navlist.item :href="route('mascotas.index')" :current="request()->routeIs('mascotas.*')" wire:navigate>
+                        <x-slot:icon>
+                            <x-gmdi-pets-o class="w-5 h-5" />
+                        </x-slot:icon>
+                        {{ __('Todas las Mascotas') }}
+                    </flux:navlist.item>
+                </flux:navlist.group>
+                @endcan
+            </flux:navlist>
+        </div>
 
-        {{-- LINKS --}}
+        {{-- SECCIÓN INFERIOR: Usuario y Logout (VISIBLE SIEMPRE) --}}
+        <div class="mt-auto px-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+            {{-- Info Usuario --}}
+            <div class="flex items-center gap-3 mb-4 px-2">
+                <div class="bg-gray-200 dark:bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center font-bold text-sm">
+                    {{ auth()->user()->initials() }}
+                </div>
+                <div class="overflow-hidden">
+                    <div class="text-sm font-semibold truncate">{{ auth()->user()->name }}</div>
+                    <div class="text-xs opacity-70 truncate">{{ auth()->user()->email }}</div>
+                </div>
+            </div>
+
+            {{-- Botón Configuración (Opcional) --}}
+            <a href="{{ route('profile.edit') }}"
+                class="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 dark:hover:text-white mb-3 px-2 transition"
+                wire:navigate>
+                <x-mary-icon name="o-cog" class="w-4 h-4" />
+                Configuración
+            </a>
 
 
 
-        {{-- DESKTOP USER MENU --}}
-        <flux:dropdown class="hidden lg:block" position="bottom" align="start">
-            <flux:profile
-                :name="auth()->user()->name"
-                :initials="auth()->user()->initials()"
-                icon:trailing="chevrons-up-down"
-                data-test="sidebar-menu-button" />
+            {{-- BOTÓN CERRAR SESIÓN (GRANDE Y ROJO) --}}
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="w-full flex items-center justify-center gap-2 bg-red-50 text-red-600 border border-red-200 hover:bg-red-500 hover:text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 shadow-sm">
+                    <x-mary-icon name="o-arrow-right-start-on-rectangle" class="w-5 h-5" />
+                    <span>{{ __('Cerrar sesión') }}</span>
+                </button>
+            </form>
+        </div>
 
-            <flux:menu class="w-[220px]">
-                <flux:menu.radio.group>
-                    <div class="p-0 text-sm font-normal">
-                        <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
-                            <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg">
-                                <span class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                    {{ auth()->user()->initials() }}
-                                </span>
-                            </span>
-
-                            <div class="grid flex-1 text-start text-sm leading-tight">
-                                <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                <span class="truncate text-xs opacity-70">{{ auth()->user()->email }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </flux:menu.radio.group>
-
-                <flux:menu.separator />
-
-                <flux:menu.radio.group>
-                    <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
-                        {{ __('Configuración') }}
-                    </flux:menu.item>
-                </flux:menu.radio.group>
-
-                <flux:menu.separator />
-
-                <form method="POST" action="{{ route('logout') }}" class="w-full">
-                    @csrf
-                    <flux:menu.item
-                        as="button"
-                        type="submit"
-                        icon="arrow-right-start-on-rectangle"
-                        class="w-full"
-                        data-test="logout-button">
-                        {{ __('Cerrar sesión') }}
-                    </flux:menu.item>
-                </form>
-            </flux:menu>
-        </flux:dropdown>
     </flux:sidebar>
 
-    {{-- MOBILE HEADER --}}
-    <flux:header class="lg:hidden bg-white border-b border-black/5 dark:bg-zinc-900 dark:border-white/10">
-        <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
+    {{-- WRAPPER PARA CONTENIDO PRINCIPAL --}}
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
 
-        <flux:spacer />
+        {{-- Header Móvil (Solo se ve en pantallas pequeñas) --}}
+        <flux:header class="lg:hidden bg-white border-b border-black/5 dark:bg-zinc-900 dark:border-white/10 px-4 py-3 flex items-center justify-between shrink-0">
+            <flux:sidebar.toggle class="lg:hidden" icon="bars-2" />
+            <span class="font-bold">PetCare</span>
+            <div class="w-6"></div> {{-- Espaciador para centrar el texto --}}
+        </flux:header>
 
-        <flux:dropdown position="top" align="end">
-            <flux:profile :initials="auth()->user()->initials()" icon-trailing="chevron-down" />
-
-            <flux:menu>
-                <flux:menu.radio.group>
-                    <div class="p-0 text-sm font-normal">
-                        <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
-                            <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg">
-                                <span class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                    {{ auth()->user()->initials() }}
-                                </span>
-                            </span>
-
-                            <div class="grid flex-1 text-start text-sm leading-tight">
-                                <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                <span class="truncate text-xs opacity-70">{{ auth()->user()->email }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </flux:menu.radio.group>
-
-                <flux:menu.separator />
-
-                <flux:menu.radio.group>
-                    <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
-                        {{ __('Configuración') }}
-                    </flux:menu.item>
-                </flux:menu.radio.group>
-
-                <flux:menu.separator />
-
-                <form method="POST" action="{{ route('logout') }}" class="mt-4">
-                    @csrf
-                    <button class="w-full rounded-xl bg-red-500 py-2 text-white font-bold">
-                        Cerrar sesión
-                    </button>
-                </form>
-            </flux:menu>
-        </flux:dropdown>
-    </flux:header>
-
-    {{-- ✅ MAIN CONTENT (SOLUCIÓN B) --}}
-    <flux:main class="{{ str_replace('_', '-', app()->getLocale()) }}">
-        <div class="max-w-7xl mx-auto px-4 py-6">
-            {{ $slot }}
-        </div>
-    </flux:main>
+        {{-- CONTENIDO PRINCIPAL (Derecha) --}}
+        {{-- 'flex-1 overflow-y-auto' permite que solo esta parte tenga scroll --}}
+        <flux:main class="flex-1 overflow-y-auto bg-gray-50 dark:bg-black/20 p-6">
+            <div class="max-w-7xl mx-auto">
+                {{ $slot }}
+            </div>
+        </flux:main>
+    </div>
 
     @fluxScripts
 </body>
